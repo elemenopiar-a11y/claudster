@@ -1,0 +1,33 @@
+# SearXNG under https://yourdomain.com/search
+#
+# Important: NO rewrite-target here. SearXNG (Flask/Werkzeug) is told
+# about the prefix via the X-Script-Name header + SEARXNG_BASE_URL, and
+# it strips the prefix itself internally. If you rewrite the path (i.e.
+# strip /search before it reaches the pod), SearXNG's own base_url
+# calculation breaks and you get 404s on its static assets.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: searxng
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Script-Name /search;
+      proxy_set_header X-Forwarded-Proto $scheme;
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - yourdomain.com          # <-- CHANGE ME (same host as homepage)
+      secretName: yourdomain-com-tls   # <-- SAME secretName as homepage.yaml ingress
+  rules:
+    - host: yourdomain.com        # <-- CHANGE ME
+      http:
+        paths:
+          - path: /search
+            pathType: Prefix
+            backend:
+              service:
+                name: searxng
+                port:
+                  number: 8080

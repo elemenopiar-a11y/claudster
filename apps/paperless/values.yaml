@@ -1,0 +1,46 @@
+# Values for gabe565/paperless-ngx Helm chart.
+# This chart CAN bundle its own PostgreSQL - enabled here for simplicity.
+# For anything beyond a homelab, point postgresql.enabled to false and use
+# an external/managed Postgres instead.
+image:
+  tag: "2.14.7"
+
+env:
+  TZ: "Europe/Prague"
+  PAPERLESS_URL: "https://yourdomain.com"                 # <-- CHANGE ME
+  PAPERLESS_FORCE_SCRIPT_NAME: "/paperless"                # <-- makes Paperless subpath-aware
+  PAPERLESS_STATIC_URL: "/paperless/static/"
+  PAPERLESS_USE_X_FORWARD_HOST: "true"
+  PAPERLESS_USE_X_FORWARD_PORT: "true"
+  PAPERLESS_PROXY_SSL_HEADER: '["HTTP_X_FORWARDED_PROTO", "https"]'
+  PAPERLESS_OCR_LANGUAGE: "eng"
+  PAPERLESS_TIME_ZONE: "Europe/Prague"
+
+postgresql:
+  enabled: true
+  auth:
+    username: paperless
+    password: "CHANGE_ME_STRONG_PASSWORD"     # <-- CHANGE ME (better: use a Secret + existingSecret)
+    database: paperless
+
+redis:
+  enabled: true
+
+persistence:
+  data:
+    enabled: true
+    storageClass: "managed-csi"     # default AKS Azure Disk storage class
+    size: 5Gi
+  export:
+    enabled: true
+    storageClass: "managed-csi"
+    size: 5Gi
+  consume:
+    enabled: true
+    storageClass: "managed-csi"
+    size: 5Gi
+
+# We manage Ingress ourselves in apps/paperless/extra/ingress.yaml
+ingress:
+  main:
+    enabled: false

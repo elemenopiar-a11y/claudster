@@ -22,10 +22,10 @@ apps/
 
 | URL                              | App       | Notes                                   |
 |-----------------------------------|-----------|------------------------------------------|
-| https://yourdomain.com/           | homepage  | static, path-based                        |
-| https://yourdomain.com/search     | searxng   | path-based (needs X-Script-Name header)   |
-| https://yourdomain.com/paperless  | paperless | path-based (needs FORCE_SCRIPT_NAME)      |
-| https://photos.yourdomain.com     | immich    | MUST be a subdomain - no subpath support  |
+| https://marshlaw.uk/           | homepage  | static, path-based                        |
+| https://marshlaw.uk/search     | searxng   | path-based (needs X-Script-Name header)   |
+| https://marshlaw.uk/paperless  | paperless | path-based (needs FORCE_SCRIPT_NAME)      |
+| https://photos.marshlaw.uk     | immich    | MUST be a subdomain - no subpath support  |
 
 See the accompanying walkthrough for the full install steps
 (ingress-nginx, cert-manager, Argo CD, DNS, bootstrap order).

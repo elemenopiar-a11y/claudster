@@ -1,0 +1,20 @@
+# Minimal settings.yml override so SearXNG knows its own external URL.
+# The chart merges/mounts this over its default settings (see values.yaml
+# extraVolumeMounts). Extend this with engines/categories as you like -
+# see https://docs.searxng.org/admin/settings/index.html
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-settings
+data:
+  settings.yml: |
+    use_default_settings: true
+    server:
+      base_url: "https://yourdomain.com/search/"   # <-- CHANGE ME
+      secret_key: "REPLACE_WITH_A_RANDOM_SECRET"     # <-- CHANGE ME: openssl rand -hex 32
+      limiter: false
+    search:
+      safe_search: 0
+      formats:
+        - html
+        - json

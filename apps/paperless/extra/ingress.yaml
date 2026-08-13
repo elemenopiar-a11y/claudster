@@ -1,0 +1,31 @@
+# Paperless-ngx under https://yourdomain.com/paperless
+#
+# Like SearXNG: NO rewrite-target. PAPERLESS_FORCE_SCRIPT_NAME (set in
+# values.yaml) tells Django the app lives under /paperless, so the
+# full incoming path must reach the pod unmodified.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: paperless
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"   # allow larger doc uploads
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - yourdomain.com          # <-- CHANGE ME (same host as homepage)
+      secretName: yourdomain-com-tls   # <-- SAME secretName as homepage.yaml ingress
+  rules:
+    - host: yourdomain.com        # <-- CHANGE ME
+      http:
+        paths:
+          - path: /paperless
+            pathType: Prefix
+            backend:
+              service:
+                # Chart's generated service name follows <release>-paperless-ngx;
+                # verify with: kubectl get svc -n paperless
+                name: paperless-paperless-ngx
+                port:
+                  number: 8000

@@ -1,0 +1,35 @@
+# Multi-source Application: one source pulls the SearXNG Helm chart,
+# the second source pulls extra plain manifests (Ingress + custom
+# settings.yml ConfigMap) from your own Git repo. Argo CD merges both
+# sources into a single Application/sync unit.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: searxng
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: homelab
+  sources:
+    - repoURL: https://charts.kubito.dev
+      chart: searxng
+      targetRevision: "1.1.4"
+      helm:
+        valueFiles:
+          - $values/apps/searxng/values.yaml
+    - repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+      targetRevision: main
+      ref: values
+    - repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+      targetRevision: main
+      path: apps/searxng/extra   # Ingress + ConfigMap (not part of the chart)
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: searxng
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

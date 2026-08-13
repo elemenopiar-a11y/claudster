@@ -1,0 +1,27 @@
+# Root path "/" of the main domain -> static homepage.
+# This Ingress also "owns" the TLS certificate for the apex domain;
+# searxng.yaml and paperless.yaml's Ingresses reuse the SAME secretName
+# below so cert-manager only issues ONE certificate for yourdomain.com.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homepage
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - yourdomain.com          # <-- CHANGE ME
+      secretName: yourdomain-com-tls
+  rules:
+    - host: yourdomain.com        # <-- CHANGE ME
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homepage
+                port:
+                  number: 80

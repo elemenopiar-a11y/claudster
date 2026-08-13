@@ -1,0 +1,35 @@
+# cert-manager ClusterIssuer using Let's Encrypt PRODUCTION endpoint.
+# Applied once, cluster-wide. Used by every Ingress via the annotation:
+#   cert-manager.io/cluster-issuer: letsencrypt-prod
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: you@yourdomain.com          # <-- CHANGE ME: Let's Encrypt renewal notices go here
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+---
+# Staging issuer - use this FIRST while testing to avoid Let's Encrypt's
+# production rate limits (5 duplicate certs/week per domain).
+# Once everything works, switch Ingress annotations to letsencrypt-prod.
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: you@yourdomain.com          # <-- CHANGE ME
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx

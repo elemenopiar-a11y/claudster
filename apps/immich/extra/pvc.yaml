@@ -1,0 +1,13 @@
+# Storage for the actual photo/video library.
+# Use azurefile-csi (Azure Files, ReadWriteMany) instead of managed-csi
+# if you ever plan to scale the Immich server to >1 replica.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-library
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: managed-csi
+  resources:
+    requests:
+      storage: 10Gi     # <-- size to your actual photo library needs

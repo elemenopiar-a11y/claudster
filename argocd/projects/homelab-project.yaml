@@ -1,0 +1,36 @@
+# AppProject: a guardrail/grouping for all your homelab apps.
+# Restricts which repos/clusters/resource-kinds Applications in this
+# project are allowed to use. Apply this once via: kubectl apply -f
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: homelab
+  namespace: argocd
+spec:
+  description: Personal AKS homelab apps (homepage, searxng, paperless, immich)
+
+  sourceRepos:
+    - 'https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git'   # <-- CHANGE ME
+    - 'https://charts.kubito.dev'            # searxng helm repo
+    - 'https://charts.gabe565.com'           # paperless-ngx helm repo
+    - 'ghcr.io/immich-app/immich-charts'     # immich OCI helm chart
+
+  destinations:
+    - namespace: 'homepage'
+      server: https://kubernetes.default.svc
+    - namespace: 'searxng'
+      server: https://kubernetes.default.svc
+    - namespace: 'paperless'
+      server: https://kubernetes.default.svc
+    - namespace: 'immich'
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+    - group: 'networking.k8s.io'
+      kind: IngressClass
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

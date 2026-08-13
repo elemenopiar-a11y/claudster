@@ -1,0 +1,33 @@
+# Values for the official immich-app/immich-charts "immich" chart.
+# This chart does NOT bundle Postgres (requires the vectorchord
+# extension) - we deploy a small single-instance Postgres ourselves in
+# apps/immich/extra/postgres.yaml and point env vars at it below.
+# For anything beyond homelab scale, use CloudNativePG instead - see
+# https://github.com/immich-app/immich-charts
+
+image:
+  tag: "v1.145.0"     # <-- pin to a specific Immich release
+
+env:
+  DB_HOSTNAME: immich-postgres
+  DB_PORT: "5432"
+  DB_USERNAME: immich
+  DB_PASSWORD: "CHANGE_ME_STRONG_PASSWORD"     # <-- CHANGE ME (better: existing Secret)
+  DB_DATABASE_NAME: immich
+  REDIS_HOSTNAME: immich-redis-master
+
+redis:
+  enabled: true   # chart bundles Redis (bitnami) - fine for a single-node homelab use
+
+immich:
+  persistence:
+    library:
+      existingClaim: immich-library   # PVC created in extra/pvc.yaml
+
+server:
+  service:
+    type: ClusterIP
+
+# We manage Ingress ourselves (subdomain, root path only)
+ingress:
+  enabled: false

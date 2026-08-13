@@ -1,0 +1,34 @@
+# NOTE: Immich CANNOT run on a subpath (e.g. /photos) - it must be at the
+# ROOT of a (sub)domain. This app therefore gets its own subdomain
+# (photos.yourdomain.com) instead of a path under the main domain.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: homelab
+  sources:
+    - repoURL: ghcr.io/immich-app/immich-charts
+      chart: immich
+      targetRevision: "0.13.1"
+      helm:
+        valueFiles:
+          - $values/apps/immich/values.yaml
+    - repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+      targetRevision: main
+      ref: values
+    - repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+      targetRevision: main
+      path: apps/immich/extra   # Postgres (vectorchord), PVCs, Ingress
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: immich
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

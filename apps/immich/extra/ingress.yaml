@@ -1,0 +1,29 @@
+# Immich MUST be served at the ROOT of a (sub)domain - it does not
+# support subpaths. Hence its own subdomain: photos.yourdomain.com
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: immich
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "50000m"   # large photo/video uploads
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - photos.yourdomain.com    # <-- CHANGE ME
+      secretName: photos-yourdomain-com-tls
+  rules:
+    - host: photos.yourdomain.com  # <-- CHANGE ME
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                # verify actual name with: kubectl get svc -n immich
+                name: immich-server
+                port:
+                  number: 2283
