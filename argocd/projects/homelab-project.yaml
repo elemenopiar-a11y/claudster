@@ -10,7 +10,7 @@ spec:
   description: Personal AKS homelab apps (homepage, searxng, paperless, immich)
 
   sourceRepos:
-    - 'https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git'   # <-- CHANGE ME
+    - 'https://github.com/elemenopiar-a11y/claudster.git'   # <-- CHANGE ME
     - 'https://charts.kubito.dev'            # searxng helm repo
     - 'https://charts.gabe565.com'           # paperless-ngx helm repo
     - 'ghcr.io/immich-app/immich-charts'     # immich OCI helm chart
