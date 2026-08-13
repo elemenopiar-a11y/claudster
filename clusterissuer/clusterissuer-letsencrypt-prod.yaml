@@ -8,7 +8,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: you@yourdomain.com          # <-- CHANGE ME: Let's Encrypt renewal notices go here
+    email: you@marshlaw.uk          # <-- CHANGE ME: Let's Encrypt renewal notices go here
     privateKeySecretRef:
       name: letsencrypt-prod-account-key
     solvers:
@@ -26,7 +26,7 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: you@yourdomain.com          # <-- CHANGE ME
+    email: you@marshlaw.uk          # <-- CHANGE ME
     privateKeySecretRef:
       name: letsencrypt-staging-account-key
     solvers:

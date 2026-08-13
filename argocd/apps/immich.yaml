@@ -1,6 +1,6 @@
 # NOTE: Immich CANNOT run on a subpath (e.g. /photos) - it must be at the
 # ROOT of a (sub)domain. This app therefore gets its own subdomain
-# (photos.yourdomain.com) instead of a path under the main domain.
+# (photos.marshlaw.uk) instead of a path under the main domain.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,10 +17,10 @@ spec:
       helm:
         valueFiles:
           - $values/apps/immich/values.yaml
-    - repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+    - repoURL: https://github.com/elemenopiar-a11y/claudster.git
       targetRevision: main
       ref: values
-    - repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+    - repoURL: https://github.com/elemenopiar-a11y/claudster.git
       targetRevision: main
       path: apps/immich/extra   # Postgres (vectorchord), PVCs, Ingress
   destination:

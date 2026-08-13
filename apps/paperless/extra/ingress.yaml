@@ -14,10 +14,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - marshlaw.uk          # <-- CHANGE ME (same host as homepage)
+        - marshlaw.uk
       secretName: marshlow-uk-tls   # <-- SAME secretName as homepage.yaml ingress
   rules:
-    - host: marshlaw.uk        # <-- CHANGE ME
+    - host: marshlaw.uk
       http:
         paths:
           - path: /paperless

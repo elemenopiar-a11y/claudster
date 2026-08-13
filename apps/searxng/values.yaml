@@ -10,7 +10,7 @@ image:
 
 env:
   - name: SEARXNG_BASE_URL
-    value: "https://yourdomain.com/search/"     # <-- CHANGE ME (must match Ingress path below)
+    value: "https://marshlaw.uk/search/"
 
 service:
   type: ClusterIP

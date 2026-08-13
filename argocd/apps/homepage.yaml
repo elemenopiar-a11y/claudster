@@ -8,7 +8,7 @@ metadata:
 spec:
   project: homelab
   source:
-    repoURL: https://github.com/YOUR_GH_USERNAME/YOUR_GITOPS_REPO.git   # <-- CHANGE ME
+    repoURL: https://github.com/elemenopiar-a11y/claudster.git
     targetRevision: main
     path: apps/homepage
   destination:

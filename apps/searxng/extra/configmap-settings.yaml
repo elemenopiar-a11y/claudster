@@ -10,7 +10,7 @@ data:
   settings.yml: |
     use_default_settings: true
     server:
-      base_url: "https://yourdomain.com/search/"   # <-- CHANGE ME
+      base_url: "https://marshlaw.uk/search/"   
       secret_key: "REPLACE_WITH_A_RANDOM_SECRET"     # <-- CHANGE ME: openssl rand -hex 32
       limiter: false
     search:
