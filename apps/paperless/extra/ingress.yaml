@@ -1,4 +1,4 @@
-# Paperless-ngx under https://yourdomain.com/paperless
+# Paperless-ngx under https://marshlaw.uk/paperless
 #
 # Like SearXNG: NO rewrite-target. PAPERLESS_FORCE_SCRIPT_NAME (set in
 # values.yaml) tells Django the app lives under /paperless, so the
@@ -14,10 +14,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - yourdomain.com          # <-- CHANGE ME (same host as homepage)
-      secretName: yourdomain-com-tls   # <-- SAME secretName as homepage.yaml ingress
+        - marshlaw.uk          # <-- CHANGE ME (same host as homepage)
+      secretName: marshlow-uk-tls   # <-- SAME secretName as homepage.yaml ingress
   rules:
-    - host: yourdomain.com        # <-- CHANGE ME
+    - host: marshlaw.uk        # <-- CHANGE ME
       http:
         paths:
           - path: /paperless

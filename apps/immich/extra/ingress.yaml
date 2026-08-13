@@ -1,5 +1,5 @@
 # Immich MUST be served at the ROOT of a (sub)domain - it does not
-# support subpaths. Hence its own subdomain: photos.yourdomain.com
+# support subpaths. Hence its own subdomain: photos.marshlaw.uk
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -13,10 +13,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - photos.yourdomain.com    # <-- CHANGE ME
-      secretName: photos-yourdomain-com-tls
+        - photos.marshlaw.uk    # <-- CHANGE ME
+      secretName: photos-marshlaw-uk-tls
   rules:
-    - host: photos.yourdomain.com  # <-- CHANGE ME
+    - host: photos.marshlaw.uk  # <-- CHANGE ME
       http:
         paths:
           - path: /

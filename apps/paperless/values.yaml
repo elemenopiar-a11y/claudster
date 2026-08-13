@@ -7,7 +7,7 @@ image:
 
 env:
   TZ: "Europe/Prague"
-  PAPERLESS_URL: "https://yourdomain.com"                 # <-- CHANGE ME
+  PAPERLESS_URL: "https://marshlaw.uk"                 # <-- CHANGE ME
   PAPERLESS_FORCE_SCRIPT_NAME: "/paperless"                # <-- makes Paperless subpath-aware
   PAPERLESS_STATIC_URL: "/paperless/static/"
   PAPERLESS_USE_X_FORWARD_HOST: "true"
