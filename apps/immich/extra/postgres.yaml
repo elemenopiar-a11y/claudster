@@ -22,7 +22,10 @@ spec:
             - name: POSTGRES_USER
               value: immich
             - name: POSTGRES_PASSWORD
-              value: "CHANGE_ME_STRONG_PASSWORD"   # <-- CHANGE ME, must match values.yaml DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-postgres-secret
+                  key: password
             - name: POSTGRES_DB
               value: immich
             - name: POSTGRES_INITDB_ARGS
