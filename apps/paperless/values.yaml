@@ -22,6 +22,11 @@ postgresql:
     username: paperless
     password: "CHANGE_ME_STRONG_PASSWORD"     # <-- CHANGE ME (better: use a Secret + existingSecret)
     database: paperless
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "managed-csi"
+      size: 8Gi
 
 redis:
   enabled: true
@@ -29,14 +34,22 @@ redis:
 persistence:
   data:
     enabled: true
+    accessMode: ReadWriteOnce
     storageClass: "managed-csi"     # default AKS Azure Disk storage class
+    size: 5Gi
+  media:
+    enabled: true
+    accessMode: ReadWriteOnce
+    storageClass: "managed-csi"
     size: 5Gi
   export:
     enabled: true
+    accessMode: ReadWriteOnce
     storageClass: "managed-csi"
     size: 5Gi
   consume:
     enabled: true
+    accessMode: ReadWriteOnce
     storageClass: "managed-csi"
     size: 5Gi
 
