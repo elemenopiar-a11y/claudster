@@ -1,0 +1,11 @@
+# Plain ConfigMap referenced by the Ingress's "proxy-set-headers"
+# Purpose: tells SearXNG (via the X-Script-Name header) that it's being
+# served under the /search prefix, so it generates correct internal links
+# and asset paths.
+# Reference: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#custom-headers
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-proxy-headers
+data:
+  X-Script-Name: "/search"
