@@ -1,0 +1,32 @@
+# Plain upstream Redis for Paperless-ngx, replacing the chart's
+# No auth/password - fine since it's ClusterIP-only, not exposed outside
+# the cluster network.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: paperless-redis }
+  template:
+    metadata:
+      labels: { app: paperless-redis }
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 200m, memory: 128Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paperless-redis
+spec:
+  selector: { app: paperless-redis }
+  ports:
+    - port: 6379

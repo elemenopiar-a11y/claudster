@@ -15,21 +15,22 @@ env:
   PAPERLESS_PROXY_SSL_HEADER: '["HTTP_X_FORWARDED_PROTO", "https"]'
   PAPERLESS_OCR_LANGUAGE: "eng"
   PAPERLESS_TIME_ZONE: "Europe/Prague"
+  PAPERLESS_DBENGINE: postgresql
+  PAPERLESS_DBHOST: paperless-postgres          # our own plain Postgres (extra/postgres.yaml)
+  PAPERLESS_DBNAME: paperless
+  PAPERLESS_DBUSER: paperless
+  PAPERLESS_DBPASS:
+    valueFrom:
+      secretKeyRef:
+        name: paperless-db-secret
+        key: password
+  PAPERLESS_REDIS: redis://paperless-redis:6379   # our own plain Redis (extra/redis.yaml), no auth
 
+#disable chart's built-in (bitnami-based) database/cache subcharts
 postgresql:
-  enabled: true
-  auth:
-    username: paperless
-    password: "CHANGE_ME_STRONG_PASSWORD"     # <-- CHANGE ME (better: use a Secret + existingSecret)
-    database: paperless
-  primary:
-    persistence:
-      enabled: true
-      storageClass: "managed-csi"
-      size: 8Gi
-
+  enabled: false
 redis:
-  enabled: true
+  enabled: false
 
 persistence:
   data:

@@ -1,0 +1,59 @@
+# Plain upstream Postgres for Paperless-ngx, replacing the chart's
+# Bitnami-based subchart (see values.yaml comment for why).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-postgres
+spec:
+  replicas: 1
+  strategy: { type: Recreate }
+  selector:
+    matchLabels: { app: paperless-postgres }
+  template:
+    metadata:
+      labels: { app: paperless-postgres }
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_USER
+              value: paperless
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-db-secret
+                  key: password
+            - name: POSTGRES_DB
+              value: paperless
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata   # subdirectory
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: paperless-postgres-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paperless-postgres
+spec:
+  selector: { app: paperless-postgres }
+  ports:
+    - port: 5432
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: paperless-postgres-data
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: managed-csi
+  resources:
+    requests:
+      storage: 8Gi
