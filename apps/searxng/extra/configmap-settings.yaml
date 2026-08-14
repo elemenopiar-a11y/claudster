@@ -4,6 +4,9 @@
 # see https://docs.searxng.org/admin/settings/index.html
 apiVersion: v1
 kind: ConfigMap
+data:
+  allow-snippet-annotations: "true"
+  annotations-risk-level: Critical
 metadata:
   name: searxng-settings
 data:
