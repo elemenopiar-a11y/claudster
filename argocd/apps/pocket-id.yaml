@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pocket-id
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: homelab
+  sources:
+    - repoURL: ghcr.io/hobbit44/pocket-id-helm
+      chart: pocket-id
+      targetRevision: "2.14.0"
+      helm:
+        valueFiles:
+          - $values/apps/pocketid/values.yaml
+    - repoURL: https://github.com/elemenopiar-a11y/claudster.git
+      targetRevision: main
+      ref: values
+    - repoURL: https://github.com/elemenopiar-a11y/claudster.git
+      targetRevision: main
+      path: apps/pocket-id/extra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pocket-id
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

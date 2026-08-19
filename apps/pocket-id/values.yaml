@@ -1,0 +1,18 @@
+# Values for hobbit44/pocket-id-helm.
+config:
+  APP_URL: "https://id.marshlaw.uk"   # <-- dedicated subdomain, NOT a subpath (see note in extra/ingress.yaml)
+  TRUST_PROXY: "true"                  # required: we're behind ingress-nginx
+
+existingSecret: pocket-id-secret
+
+# Persistence stores Pocket ID's SQLite database + uploaded files
+# (profile pictures, OIDC client logos). Defaults to 8Gi/ReadWriteOnce,
+# which is enabled out of the box - we only need to pin the storage class
+# to match the rest of the cluster.
+persistence:
+  enabled: true
+  storageClass: "managed-csi"
+  size: 2Gi
+
+ingress:
+  enabled: false

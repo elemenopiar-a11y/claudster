@@ -1,0 +1,24 @@
+# Pocket ID under its subdomain: https://id.marshlaw.uk
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pocket-id
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - id.marshlaw.uk
+      secretName: id-marshlaw-uk-tls   # <-- SAME secretName as homepage.yaml ingress
+  rules:
+    - host: id.marshlaw.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pocket-id # verify with kubectl get svc -n pocket-id
+                port:
+                  number: 1411
