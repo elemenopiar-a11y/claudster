@@ -16,3 +16,6 @@ persistence:
 
 ingress:
   enabled: false
+
+image:
+  tag: "v1.3"
