@@ -13,7 +13,7 @@ spec:
       targetRevision: "2.4.0"
       helm:
         valueFiles:
-          - $values/apps/pocketid/values.yaml
+          - $values/apps/pocket-id/values.yaml
     - repoURL: https://github.com/elemenopiar-a11y/claudster.git
       targetRevision: main
       ref: values
