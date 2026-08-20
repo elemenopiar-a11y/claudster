@@ -10,7 +10,7 @@ spec:
   sources:
     - repoURL: ghcr.io/hobbit44/pocket-id-helm
       chart: pocket-id
-      targetRevision: "2.14.0"
+      targetRevision: "2.4.0"
       helm:
         valueFiles:
           - $values/apps/pocketid/values.yaml
