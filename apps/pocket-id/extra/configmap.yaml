@@ -1,0 +1,8 @@
+#replacement for the chart's configmap, because it would not parse
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pocket-id-config
+data:
+  APP_URL: "https://id.marshlaw.uk"
+  TRUST_PROXY: "true"

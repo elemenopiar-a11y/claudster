@@ -4,6 +4,7 @@ config:
   TRUST_PROXY: "true"                  # required: we're behind ingress-nginx
 
 existingSecret: pocket-id-secret
+existingConfigMap: pocket-id-config
 
 # Persistence stores Pocket ID's SQLite database + uploaded files
 # (profile pictures, OIDC client logos). Defaults to 8Gi/ReadWriteOnce,
